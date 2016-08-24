@@ -11,7 +11,6 @@ library(lattice)
 library(plotly)
 library(shiny)
 library(shinythemes)
-library(rPlotter)
 
 newpal <- c('#19969F', '#B5522E', '#7E8DCF', '#0A5879', '#E38E52', '#ADE4F6', '#121D9E', '#06091D', '#0F1651', '#1C295F', '#743E32', '#170D1A', '#160B0F', '#281516', '#353EA4', '#818DAC', '#E79C3F', '#FACC56', '#3A5DE7', '#B03516',"#5374EE")
 
