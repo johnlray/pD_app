@@ -57,10 +57,10 @@ shinyServer(function(input, output) {
       return(week_month)
     })
     
-    annual_pr <- reactive({
-      annual_pr <- annual[annual$SEX %in% input$SEX & annual$RACE %in% input$RACE & annual$EDUCD %in% input$EDUCD & annual$MARST %in% input$MARST & annual$AGE == input$AGE,]
-      return(annual_pr)
-    })
+    #annual_pr <- reactive({
+      #annual_pr <- annual[annual$SEX %in% input$SEX & annual$RACE %in% input$RACE & annual$EDUCD %in% input$EDUCD & annual$MARST %in% input$MARST & annual$AGE == input$AGE,]
+      #return(annual_pr)
+    #})
 
     output$basePlot = renderPlotly( {
       gg <- ggplot(dat(), aes(x = AGE, y = prDeath, label = plab)) + 
@@ -136,19 +136,19 @@ shinyServer(function(input, output) {
   pgdens
   })
   
-  output$timePlot = renderPlotly({
-      ggt <- ggplot(annual_pr(), aes(x = YEAR, y = prDeath)) +
-        geom_line() +
-        geom_point() +
-        xlab("Year") +
-        ylab("~p(Death)") +
-        ggtitle("Risk of Someone Like You Dying Per Year, 2009-2014") +
-        theme_classic() +
-        theme(legend.position = 'NULL')
-      pggt <- ggplotly(ggt, tooltip = c('x','y'))
-      pggt <- layout(pggt, showlegend = F)
-      pggt
-  })
+  #output$timePlot = renderPlotly({
+      #ggt <- ggplot(annual_pr(), aes(x = YEAR, y = prDeath)) +
+        #geom_line() +
+        #geom_point() +
+        #xlab("Year") +
+        #ylab("~p(Death)") +
+        #ggtitle("Risk of Someone Like You Dying Per Year, 2009-2014") +
+        #theme_classic() +
+        #theme(legend.position = 'NULL')
+      #pggt <- ggplotly(ggt, tooltip = c('x','y'))
+      #pggt <- layout(pggt, showlegend = F)
+      #pggt
+  #})
   
   # By month and day of week
   output$datePlot = renderPlotly({

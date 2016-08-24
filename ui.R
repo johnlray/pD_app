@@ -48,7 +48,7 @@ shinyUI(
         plotlyOutput("onebarPlot"),
         plotlyOutput("cumsumPlot"),
         plotlyOutput("densPlot"),
-        plotlyOutput("timePlot"),
+        #plotlyOutput("timePlot"),
         plotlyOutput("datePlot")
       )
       
