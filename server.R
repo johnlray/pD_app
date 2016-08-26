@@ -56,13 +56,8 @@ shinyServer(function(input, output) {
       week_month <- week_month[week_month$SEX %in% input$SEX & week_month$RACE %in% input$RACE & week_month$EDU %in% input$EDUCD & week_month$MARITAL %in% input$MARST & week_month$AGE == input$AGE,]
       return(week_month)
     })
-    
-    #annual_pr <- reactive({
-      #annual_pr <- annual[annual$SEX %in% input$SEX & annual$RACE %in% input$RACE & annual$EDUCD %in% input$EDUCD & annual$MARST %in% input$MARST & annual$AGE == input$AGE,]
-      #return(annual_pr)
-    #})
 
-    output$basePlot = renderPlotly( {
+    output$basePlot = renderPlot( {
       gg <- ggplot(dat(), aes(x = AGE, y = prDeath, label = plab)) + 
         geom_point(cex = 0.25, color = 'gray') + 
         geom_smooth(method="loess", color = 'black', size = 1) + 
@@ -74,9 +69,9 @@ shinyServer(function(input, output) {
         ggtitle("Approximate Annual Probability of Death for Someone Like You, by Age") +
         geom_vline(xintercept = 96) +
         annotate("text", x = 100, y = .01, label = c("Sample Max"), size = 3) + xlim(0,105)
-      p <- ggplotly(gg, tooltip = c("x","label"))
-      p <- layout(p, showlegend = F)
-      p
+      #p <- ggplotly(gg, tooltip = c("x","label"))
+      #p <- layout(p, showlegend = F)
+      print(p)
     })
     
     output$stackPropPlot = renderPlotly({
@@ -110,15 +105,15 @@ shinyServer(function(input, output) {
       pggyp
     })
   
-  output$cumsumPlot = renderPlotly({
+  output$cumsumPlot = renderPlot({
     ggc <- ggplot(dat(), aes(x = AGE, y = cumsum(prDeath)/sum(prDeath), label = plab)) +
       geom_line() +
       geom_vline(xintercept = 96) +
       annotate("text", x = 100, y = .01, label = c("Sample Max"), size = 3) + xlim(0,105) +
       theme_classic() + xlab("Age") + ylab("~p(Death)") + ggtitle("Cumulative Death-Probability Sum")
-    pc <- ggplotly(ggc, tooltip = c("x","label"))
-    pc <- layout(pc, showlegend = F)
-    pc
+    #pc <- ggplotly(ggc, tooltip = c("x","label"))
+    #pc <- layout(pc, showlegend = F)
+    print(pc)
   })
   
   output$densPlot = renderPlotly({
@@ -151,7 +146,7 @@ shinyServer(function(input, output) {
   #})
   
   # By month and day of week
-  output$datePlot = renderPlotly({
+  output$datePlot = renderPlot({
     ggdate <- ggplot(month_day(), aes(x = DAY, fill = DAY, y = one)) + 
       geom_point(aes(color = DAY)) +
       #ylim(0.75, 1) +
@@ -162,9 +157,9 @@ shinyServer(function(input, output) {
       scale_fill_manual(values = newpal) +
       theme_classic() +
       theme(legend.position = 'NULL')
-    pggdate <- ggplotly(ggdate, tooltip = c('x'))
-    pggdate <- layout(pggdate, showlegend = F)
-    pggdate
+    #pggdate <- ggplotly(ggdate, tooltip = c('x'))
+    #pggdate <- layout(pggdate, showlegend = F)
+    print(pggdate)
   })
   
 })

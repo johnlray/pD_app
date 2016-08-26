@@ -43,13 +43,13 @@ shinyUI(
         ),
         # Create a place for the plot
       mainPanel(
-        plotlyOutput("basePlot"),
+        plotOutput("basePlot"),
         plotlyOutput("stackPropPlot"),
         plotlyOutput("onebarPlot"),
-        plotlyOutput("cumsumPlot"),
+        plotOutput("cumsumPlot"),
         plotlyOutput("densPlot"),
         #plotlyOutput("timePlot"),
-        plotlyOutput("datePlot")
+        plotOutput("datePlot")
       )
       
     )
