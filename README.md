@@ -1,4 +1,8 @@
-<p>Welcome to p(Death)!</p>
+<p>Welcome to p(Death)! To run this app, simply open your RStudio and run:</p>
+
+```
+shiny::runGitHub('pD_app', 'johnlray')
+```
 
 <p>This app provides a crude calculation of the probability that someone matching certain demographic characteristics will die in the next year. This calculation has only two parts: A numerator representing how many people with given demographic characteristics die, and a denominator representing an imputed estimate of how many such people there are in the United States. The numerator comes from <a href=http://www.nber.org/mortality/ftp.cdc.gov/pub/Health_Statistics/NCHS/Datasets/DVS/mortality/>CDC</a>, denominator from <a href=https://usa.ipums.org/usa/>IPUMS</a>. Numerator is number of deaths reported in aggregate CDC data, disaggregated by <a href=http://www.cdc.gov/nchs/icd/icd10.htm>ICD-10 cause-of-death code</a> for some plots, and denominator is a national total imputed using raw, unweighted IPUMS data. Improvements will be made as suggested. IPUMS sample age max is 96, while CDC data's is higher. For both datasets, I use their annual files covering the years 2009, 2010, 2011, 2012, 2013, and 2014.</p>
 
