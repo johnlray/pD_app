@@ -71,7 +71,7 @@ shinyServer(function(input, output) {
         annotate("text", x = 100, y = .01, label = c("Sample Max"), size = 3) + xlim(0,105)
       #p <- ggplotly(gg, tooltip = c("x","label"))
       #p <- layout(p, showlegend = F)
-      print(p)
+      print(gg)
     })
     
     output$stackPropPlot = renderPlotly({
@@ -113,7 +113,7 @@ shinyServer(function(input, output) {
       theme_classic() + xlab("Age") + ylab("~p(Death)") + ggtitle("Cumulative Death-Probability Sum")
     #pc <- ggplotly(ggc, tooltip = c("x","label"))
     #pc <- layout(pc, showlegend = F)
-    print(pc)
+    print(ggc)
   })
   
   output$densPlot = renderPlotly({
@@ -159,7 +159,7 @@ shinyServer(function(input, output) {
       theme(legend.position = 'NULL')
     #pggdate <- ggplotly(ggdate, tooltip = c('x'))
     #pggdate <- layout(pggdate, showlegend = F)
-    print(pggdate)
+    print(ggdate)
   })
   
 })
