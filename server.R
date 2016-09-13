@@ -58,8 +58,6 @@ shinyServer(function(input, output) {
     })
     
     withProgress(message = 'Rendering plot', value = 0, {
-      n <- 6
-      incProgress(1/n, detail = paste(i*100,'% done...'))
 
     output$basePlot = renderPlot( {
       gg <- ggplot(dat(), aes(x = AGE, y = prDeath, label = plab)) + 
