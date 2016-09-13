@@ -57,8 +57,6 @@ shinyServer(function(input, output) {
       return(week_month)
     })
     
-    withProgress(message = 'Rendering plot', value = 0, {
-
     output$basePlot = renderPlot( {
       gg <- ggplot(dat(), aes(x = AGE, y = prDeath, label = plab)) + 
         geom_point(cex = 0.25, color = 'gray') + 
@@ -162,6 +160,5 @@ shinyServer(function(input, output) {
     #pggdate <- ggplotly(ggdate, tooltip = c('x'))
     #pggdate <- layout(pggdate, showlegend = F)
     print(ggdate)
-  })
     })
 })
