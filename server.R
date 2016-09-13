@@ -56,6 +56,9 @@ shinyServer(function(input, output) {
       week_month <- week_month[week_month$SEX %in% input$SEX & week_month$RACE %in% input$RACE & week_month$EDU %in% input$EDUCD & week_month$MARITAL %in% input$MARST & week_month$AGE == input$AGE,]
       return(week_month)
     })
+    
+    withProgress(message = 'Rendering plot', value = 0, {
+      incProgress(1/n, detail = paste(i*100,'% done...'))
 
     output$basePlot = renderPlot( {
       gg <- ggplot(dat(), aes(x = AGE, y = prDeath, label = plab)) + 
@@ -161,5 +164,5 @@ shinyServer(function(input, output) {
     #pggdate <- layout(pggdate, showlegend = F)
     print(ggdate)
   })
-  
+    })
 })
