@@ -11,6 +11,7 @@ library(lattice)
 library(plotly)
 library(shiny)
 library(shinythemes)
+library(ggiraph)
 
 newpal <- c('#19969F', '#B5522E', '#7E8DCF', '#0A5879', '#E38E52', '#ADE4F6', '#121D9E', '#06091D', '#0F1651', '#1C295F', '#743E32', '#170D1A', '#160B0F', '#281516', '#353EA4', '#818DAC', '#E79C3F', '#FACC56', '#3A5DE7', '#B03516',"#5374EE")
 
@@ -56,8 +57,7 @@ shinyServer(function(input, output) {
       week_month <- week_month[week_month$SEX %in% input$SEX & week_month$RACE %in% input$RACE & week_month$EDU %in% input$EDUCD & week_month$MARITAL %in% input$MARST & week_month$AGE == input$AGE,]
       return(week_month)
     })
-    
-    output$basePlot = renderPlot( {
+
       gg <- ggplot(dat(), aes(x = AGE, y = prDeath, label = plab)) + 
         geom_point(cex = 0.25, color = 'gray') + 
         geom_smooth(method="loess", color = 'black', size = 1) + 
@@ -69,12 +69,11 @@ shinyServer(function(input, output) {
         ggtitle("Approximate Annual Probability of Death for Someone Like You, by Age") +
         geom_vline(xintercept = 96) +
         annotate("text", x = 100, y = .01, label = c("Sample Max"), size = 3) + xlim(0,105)
-      #p <- ggplotly(gg, tooltip = c("x","label"))
-      #p <- layout(p, showlegend = F)
-      print(gg)
+      
+    output$basePlot = renderggiraph( {
+      ggiraph(code = print(gg) )
     })
     
-    output$stackPropPlot = renderPlotly({
       ggs <- ggplot(cause(), aes(x = AGE, y = Proportion, fill = Cause, label = Percent)) +
         geom_bar(position = "fill",stat = "identity") +
         xlab("Age") +
@@ -84,12 +83,10 @@ shinyServer(function(input, output) {
         theme(legend.position = 'NULL') +
         scale_fill_manual(values = newpal)
       
-      pgs <- ggplotly(ggs, tooltip = c('x','fill','label'))
-      pgs <- layout(pgs, showlegend = F)
-      pgs
+    output$stackPropPlot = renderggiraph({
+      ggiraph(code = print(pgs) )
     })
     
-    output$onebarPlot = renderPlotly({
       ggyp <- ggplot(oneyear(), aes(x = AGE, y = Proportion, label = Percent, fill = Cause)) +
         geom_bar(position = 'fill', stat='identity') +
         xlab("") +
@@ -100,23 +97,21 @@ shinyServer(function(input, output) {
         scale_fill_manual(values = newpal) +
         scale_x_discrete(breaks=c(input$AGE),
                          labels=c(input$AGE))
-      pggyp <- ggplotly(ggyp, tooltip = c('fill','label'))
-      pggyp <- layout(pggyp, showlegend = F)
-      pggyp
+
+    output$onebarPlot = renderggiraph({
+      ggiraph(code = print(pggyp))
     })
   
-  output$cumsumPlot = renderPlot({
     ggc <- ggplot(dat(), aes(x = AGE, y = cumsum(prDeath)/sum(prDeath), label = plab)) +
       geom_line() +
       geom_vline(xintercept = 96) +
       annotate("text", x = 100, y = .01, label = c("Sample Max"), size = 3) + xlim(0,105) +
       theme_classic() + xlab("Age") + ylab("~p(Death)") + ggtitle("Cumulative Death-Probability Sum")
-    #pc <- ggplotly(ggc, tooltip = c("x","label"))
-    #pc <- layout(pc, showlegend = F)
-    print(ggc)
+    
+  output$cumsumPlot = renderggiraph({
+    ggiraph(code = print(ggc))
   })
   
-  output$densPlot = renderPlotly({
   ggdens <- ggplot(cause(), aes(x = AGE, color = Cause, label = Cause)) +
     geom_density() +
     xlab("Age") +
@@ -126,27 +121,11 @@ shinyServer(function(input, output) {
     theme(legend.position = 'NULL') +
     scale_color_manual(values = newpal)
   
-  pgdens <- ggplotly(ggdens, tooltip = c('x','label'))
-  pgdens <- layout(pgdens, showlegend = F)
-  pgdens
+  output$densPlot = renderggiraph({
+    ggiraph(code = print(pgdens))
   })
   
-  #output$timePlot = renderPlotly({
-      #ggt <- ggplot(annual_pr(), aes(x = YEAR, y = prDeath)) +
-        #geom_line() +
-        #geom_point() +
-        #xlab("Year") +
-        #ylab("~p(Death)") +
-        #ggtitle("Risk of Someone Like You Dying Per Year, 2009-2014") +
-        #theme_classic() +
-        #theme(legend.position = 'NULL')
-      #pggt <- ggplotly(ggt, tooltip = c('x','y'))
-      #pggt <- layout(pggt, showlegend = F)
-      #pggt
-  #})
-  
   # By month and day of week
-  output$datePlot = renderPlot({
     ggdate <- ggplot(month_day(), aes(x = DAY, fill = DAY, y = one)) + 
       geom_point(aes(color = DAY)) +
       #ylim(0.75, 1) +
@@ -157,8 +136,8 @@ shinyServer(function(input, output) {
       scale_fill_manual(values = newpal) +
       theme_classic() +
       theme(legend.position = 'NULL')
-    #pggdate <- ggplotly(ggdate, tooltip = c('x'))
-    #pggdate <- layout(pggdate, showlegend = F)
-    print(ggdate)
+    
+    output$datePlot = renderggiraph({
+      ggiraph(code = print(ggdate))
     })
 })
