@@ -60,8 +60,8 @@ shinyServer(function(input, output) {
     })
 
     output$basePlot = renderggiraph( {
-      gg <- ggplot(dat(), aes(x = AGE, y = prDeath, label = plab, data_id = as.character(AGE), tooltip = as.character(round(prDeath,4)))) + 
-        geom_point_interactive(cex = 0.25, color = 'gray', size = 2) + 
+      gg <- ggplot(dat(), aes(x = AGE, y = prDeath, label = plab, data_id = as.character(AGE), tooltip = as.character(round(prDeath,4)), size = 2)) + 
+        geom_point_interactive(cex = 0.25, color = 'gray') + 
         geom_smooth(method="loess", color = 'black', size = 1) + 
         geom_vline(xintercept = input$AGE, color = 'red') +
         annotate("text", x = input$AGE + 1, y = .1, color = 'red', label = yearDeath()) + 
@@ -76,7 +76,7 @@ shinyServer(function(input, output) {
     })
     
     output$stackPropPlot = renderggiraph({
-      ggs <- ggplot(cause(), aes(x = AGE, y = Proportion, fill = Cause, label = Percent, tooltip = paste0(Cause,": ",Percent)), data_id = Cause) +
+      ggs <- ggplot(cause(), aes(x = AGE, y = Proportion, fill = Cause, label = Percent, tooltip = paste0(Cause,": ",Percent), data_id = Cause)) +
         geom_bar_interactive(position = "fill",stat = "identity") +
         xlab("Age") +
         ylab("~p(Death) (proportion of year total)") +
@@ -116,6 +116,7 @@ shinyServer(function(input, output) {
   output$densPlot = renderggiraph({
   ggdens <- ggplot(cause(), aes(x = AGE, color = Cause, label = Cause, tooltip = Cause, data_id = Cause)) +
     geom_density() +
+    geom_point_interactive() +
     xlab("Age") +
     ylab("~p(Death) (share of total)") +
     ggtitle("Relative Risk of Cause of Death for People Like You\n(a.k.a., 'when is cause X riskiest?')") +
