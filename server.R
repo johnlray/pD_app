@@ -58,6 +58,7 @@ shinyServer(function(input, output) {
       return(week_month)
     })
 
+    output$basePlot = renderggiraph( {
       gg <- ggplot(dat(), aes(x = AGE, y = prDeath, label = plab)) + 
         geom_point(cex = 0.25, color = 'gray') + 
         geom_smooth(method="loess", color = 'black', size = 1) + 
@@ -70,10 +71,10 @@ shinyServer(function(input, output) {
         geom_vline(xintercept = 96) +
         annotate("text", x = 100, y = .01, label = c("Sample Max"), size = 3) + xlim(0,105)
       
-    output$basePlot = renderggiraph( {
       ggiraph(code = print(gg) )
     })
     
+    output$stackPropPlot = renderggiraph({
       ggs <- ggplot(cause(), aes(x = AGE, y = Proportion, fill = Cause, label = Percent)) +
         geom_bar(position = "fill",stat = "identity") +
         xlab("Age") +
@@ -82,11 +83,11 @@ shinyServer(function(input, output) {
         theme_classic() +
         theme(legend.position = 'NULL') +
         scale_fill_manual(values = newpal)
-      
-    output$stackPropPlot = renderggiraph({
+
       ggiraph(code = print(pgs) )
     })
     
+    output$onebarPlot = renderggiraph({
       ggyp <- ggplot(oneyear(), aes(x = AGE, y = Proportion, label = Percent, fill = Cause)) +
         geom_bar(position = 'fill', stat='identity') +
         xlab("") +
@@ -98,20 +99,20 @@ shinyServer(function(input, output) {
         scale_x_discrete(breaks=c(input$AGE),
                          labels=c(input$AGE))
 
-    output$onebarPlot = renderggiraph({
       ggiraph(code = print(pggyp))
     })
-  
+    
+  output$cumsumPlot = renderggiraph({
     ggc <- ggplot(dat(), aes(x = AGE, y = cumsum(prDeath)/sum(prDeath), label = plab)) +
       geom_line() +
       geom_vline(xintercept = 96) +
       annotate("text", x = 100, y = .01, label = c("Sample Max"), size = 3) + xlim(0,105) +
       theme_classic() + xlab("Age") + ylab("~p(Death)") + ggtitle("Cumulative Death-Probability Sum")
     
-  output$cumsumPlot = renderggiraph({
     ggiraph(code = print(ggc))
   })
-  
+
+  output$densPlot = renderggiraph({
   ggdens <- ggplot(cause(), aes(x = AGE, color = Cause, label = Cause)) +
     geom_density() +
     xlab("Age") +
@@ -120,12 +121,12 @@ shinyServer(function(input, output) {
     theme_classic() +
     theme(legend.position = 'NULL') +
     scale_color_manual(values = newpal)
-  
-  output$densPlot = renderggiraph({
+
     ggiraph(code = print(pgdens))
   })
   
   # By month and day of week
+  output$datePlot = renderggiraph({
     ggdate <- ggplot(month_day(), aes(x = DAY, fill = DAY, y = one)) + 
       geom_point(aes(color = DAY)) +
       #ylim(0.75, 1) +
@@ -136,8 +137,7 @@ shinyServer(function(input, output) {
       scale_fill_manual(values = newpal) +
       theme_classic() +
       theme(legend.position = 'NULL')
-    
-    output$datePlot = renderggiraph({
+
       ggiraph(code = print(ggdate))
     })
 })
