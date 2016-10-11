@@ -89,7 +89,7 @@ shinyServer(function(input, output) {
     })
     
     output$onebarPlot = renderggiraph({
-      ggyp <- ggplot(oneyear(), aes(x = AGE, y = Proportion, label = Percent, fill = Cause, tooltip = as.character(Proportion), data_id = Cause)) +
+      ggyp <- ggplot(oneyear(), aes(x = AGE, y = Proportion, label = Percent, fill = Cause, tooltip = paste0(Cause,": ",as.character(Proportion)), data_id = Cause)) +
         geom_bar_interactive(position = 'fill', stat='identity') +
         xlab("") +
         ylab("Proportion of Total Causes") +
@@ -105,7 +105,7 @@ shinyServer(function(input, output) {
     
   output$cumsumPlot = renderggiraph({
     ggc <- ggplot(dat(), aes(x = AGE, y = cumsum(prDeath)/sum(prDeath), label = plab, tooltip = cumsum(prDeath)/sum(prDeath), data_id = cumsum(prDeath)/sum(prDeath))) +
-      geom_line_interactive() +
+      geom_line() +
       geom_vline(xintercept = 96) +
       annotate("text", x = 100, y = .01, label = c("Sample Max"), size = 3) + xlim(0,105) +
       theme_classic() + xlab("Age") + ylab("~p(Death)") + ggtitle("Cumulative Death-Probability Sum")
@@ -114,7 +114,7 @@ shinyServer(function(input, output) {
   })
 
   output$densPlot = renderggiraph({
-  ggdens <- ggplot(cause(), aes(x = AGE, color = Cause, label = Cause, tooltip = Cause, data_id = Cause)) +
+  ggdens <- ggplot(cause(), aes(x = AGE, y = Percent, color = Cause, label = Cause, tooltip = Cause, data_id = Cause)) +
     geom_density() +
     geom_point_interactive() +
     xlab("Age") +
