@@ -89,7 +89,7 @@ shinyServer(function(input, output) {
     })
     
     output$onebarPlot = renderggiraph({
-      ggyp <- ggplot(oneyear(), aes(x = AGE, y = Proportion, label = Percent, fill = Cause, tooltip = paste0(Cause,": ",as.character(Proportion)), data_id = Cause)) +
+      ggyp <- ggplot(oneyear(), aes(x = AGE, y = Proportion, label = Percent, fill = Cause, tooltip = paste0(Cause,": %",as.character(round(Proportion),4)*100), data_id = Cause)) +
         geom_bar_interactive(position = 'fill', stat='identity') +
         xlab("") +
         ylab("Proportion of Total Causes") +
