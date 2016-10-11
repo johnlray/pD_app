@@ -113,19 +113,19 @@ shinyServer(function(input, output) {
     ggiraph(code = print(ggc), hover_css = "fill:red;" )
   })
 
-  output$densPlot = renderggiraph({
-  ggdens <- ggplot(cause(), aes(x = AGE, y = Percent, color = Cause, label = Cause, tooltip = Cause, data_id = Cause)) +
-    geom_density() +
-    geom_point_interactive() +
-    xlab("Age") +
-    ylab("~p(Death) (share of total)") +
-    ggtitle("Relative Risk of Cause of Death for People Like You\n(a.k.a., 'when is cause X riskiest?')") +
-    theme_classic() +
-    theme(legend.position = 'NULL') +
-    scale_color_manual(values = newpal)
+    #output$densPlot = renderggiraph({
+  #ggdens <- ggplot(cause(), aes(x = AGE, y = Percent, color = Cause, label = Cause, tooltip = Cause, data_id = Cause)) +
+    #geom_density() +
+    #geom_point_interactive() +
+    #xlab("Age") +
+    #ylab("~p(Death) (share of total)") +
+    #ggtitle("Relative Risk of Cause of Death for People Like You\n(a.k.a., 'when is cause X riskiest?')") +
+    #theme_classic() +
+    #theme(legend.position = 'NULL') +
+    #scale_color_manual(values = newpal)
 
-    ggiraph(code = print(ggdens), hover_css = "fill:red;" )
-  })
+    #ggiraph(code = print(ggdens), hover_css = "fill:red;" )
+  #})
   
   # By month and day of week
   output$datePlot = renderggiraph({

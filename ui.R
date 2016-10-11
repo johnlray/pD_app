@@ -48,7 +48,7 @@ shinyUI(
         ggiraphOutput("stackPropPlot"),
         ggiraphOutput("onebarPlot"),
         ggiraphOutput("cumsumPlot"),
-        ggiraphOutput("densPlot"),
+        #ggiraphOutput("densPlot"),
         ggiraphOutput("datePlot")
       )
       
