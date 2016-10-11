@@ -30,6 +30,7 @@ shinyServer(function(input, output) {
       cause = nber_allyears[nber_allyears$SEX %in% input$SEX & nber_allyears$RACE %in% input$RACE & nber_allyears$EDUCD %in% input$EDUCD & nber_allyears$MARST %in% input$MARST,]
       cause$Proportion = cause$one/ave(cause$one, cause$AGE, FUN = sum)
       cause$Percent = paste0(round(cause$Proportion*100,3),"%")
+      cause$Cause = gsub("'", "", cause$Cause)
       return(cause)
     })
     
@@ -60,7 +61,7 @@ shinyServer(function(input, output) {
 
     output$basePlot = renderggiraph( {
       gg <- ggplot(dat(), aes(x = AGE, y = prDeath, label = plab, data_id = as.character(AGE), tooltip = as.character(round(prDeath,4)))) + 
-        geom_point_interactive(cex = 0.25, color = 'gray') + 
+        geom_point_interactive(cex = 0.25, color = 'gray', size = 2) + 
         geom_smooth(method="loess", color = 'black', size = 1) + 
         geom_vline(xintercept = input$AGE, color = 'red') +
         annotate("text", x = input$AGE + 1, y = .1, color = 'red', label = yearDeath()) + 
@@ -75,7 +76,7 @@ shinyServer(function(input, output) {
     })
     
     output$stackPropPlot = renderggiraph({
-      ggs <- ggplot(cause(), aes(x = AGE, y = Proportion, fill = Cause, label = Percent, tooltip = as.character(paste0(Percent,"%")), data_id = Cause)) +
+      ggs <- ggplot(cause(), aes(x = AGE, y = Proportion, fill = Cause, label = Percent, tooltip = paste0(Cause,": ",Percent)), data_id = Cause) +
         geom_bar_interactive(position = "fill",stat = "identity") +
         xlab("Age") +
         ylab("~p(Death) (proportion of year total)") +
