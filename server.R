@@ -71,7 +71,7 @@ shinyServer(function(input, output) {
         geom_vline(xintercept = 96) +
         annotate("text", x = 100, y = .01, label = c("Sample Max"), size = 3) + xlim(0,105)
       
-      ggiraph(code = print(gg) )
+      ggiraph(code = print(gg), hover_css = "fill:red;" )
     })
     
     output$stackPropPlot = renderggiraph({
@@ -84,7 +84,7 @@ shinyServer(function(input, output) {
         theme(legend.position = 'NULL') +
         scale_fill_manual(values = newpal)
 
-      ggiraph(code = print(pgs) )
+      ggiraph(code = print(ggs), hover_css = "fill:red;" )
     })
     
     output$onebarPlot = renderggiraph({
@@ -99,21 +99,21 @@ shinyServer(function(input, output) {
         scale_x_discrete(breaks=c(input$AGE),
                          labels=c(input$AGE))
 
-      ggiraph(code = print(pggyp))
+      ggiraph(code = print(ggyp), hover_css = "fill:red;" )
     })
     
   output$cumsumPlot = renderggiraph({
-    ggc <- ggplot(dat(), aes(x = AGE, y = cumsum(prDeath)/sum(prDeath), label = plab)) +
-      geom_line() +
+    ggc <- ggplot(dat(), aes(x = AGE, y = cumsum(prDeath)/sum(prDeath), label = plab, tooltip = cumsum(prDeath)/sum(prDeath), data_id = cumsum(prDeath)/sum(prDeath))) +
+      geom_line_interactive() +
       geom_vline(xintercept = 96) +
       annotate("text", x = 100, y = .01, label = c("Sample Max"), size = 3) + xlim(0,105) +
       theme_classic() + xlab("Age") + ylab("~p(Death)") + ggtitle("Cumulative Death-Probability Sum")
     
-    ggiraph(code = print(ggc))
+    ggiraph(code = print(ggc), hover_css = "fill:red;" )
   })
 
   output$densPlot = renderggiraph({
-  ggdens <- ggplot(cause(), aes(x = AGE, color = Cause, label = Cause)) +
+  ggdens <- ggplot(cause(), aes(x = AGE, color = Cause, label = Cause, tooltip = Cause, data_id = Cause)) +
     geom_density() +
     xlab("Age") +
     ylab("~p(Death) (share of total)") +
@@ -122,13 +122,13 @@ shinyServer(function(input, output) {
     theme(legend.position = 'NULL') +
     scale_color_manual(values = newpal)
 
-    ggiraph(code = print(pgdens))
+    ggiraph(code = print(ggdens), hover_css = "fill:red;" )
   })
   
   # By month and day of week
   output$datePlot = renderggiraph({
-    ggdate <- ggplot(month_day(), aes(x = DAY, fill = DAY, y = one)) + 
-      geom_point(aes(color = DAY)) +
+    ggdate <- ggplot(month_day(), aes(x = DAY, fill = DAY, y = one, tooltip = DAY, data_id = DAY)) + 
+      geom_point_interactive(aes(color = DAY)) +
       #ylim(0.75, 1) +
       facet_wrap( ~ MONTH) +
       xlab("") +
@@ -138,6 +138,6 @@ shinyServer(function(input, output) {
       theme_classic() +
       theme(legend.position = 'NULL')
 
-      ggiraph(code = print(ggdate))
+      ggiraph(code = print(ggdate), hover_css = "fill:red;" )
     })
 })
