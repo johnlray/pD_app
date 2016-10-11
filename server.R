@@ -59,7 +59,7 @@ shinyServer(function(input, output) {
     })
 
     output$basePlot = renderggiraph( {
-      gg <- ggplot(dat(), aes(x = AGE, y = prDeath, label = plab, data_id = AGE, tooltip = prDeath)) + 
+      gg <- ggplot(dat(), aes(x = AGE, y = prDeath, label = plab, data_id = as.character(AGE), tooltip = as.character(round(prDeath,4)))) + 
         geom_point_interactive(cex = 0.25, color = 'gray') + 
         geom_smooth(method="loess", color = 'black', size = 1) + 
         geom_vline(xintercept = input$AGE, color = 'red') +
@@ -75,7 +75,7 @@ shinyServer(function(input, output) {
     })
     
     output$stackPropPlot = renderggiraph({
-      ggs <- ggplot(cause(), aes(x = AGE, y = Proportion, fill = Cause, label = Percent, tooltip = Percent, data_id = Cause)) +
+      ggs <- ggplot(cause(), aes(x = AGE, y = Proportion, fill = Cause, label = Percent, tooltip = as.character(paste0(Percent,"%")), data_id = Cause)) +
         geom_bar_interactive(position = "fill",stat = "identity") +
         xlab("Age") +
         ylab("~p(Death) (proportion of year total)") +
@@ -88,7 +88,7 @@ shinyServer(function(input, output) {
     })
     
     output$onebarPlot = renderggiraph({
-      ggyp <- ggplot(oneyear(), aes(x = AGE, y = Proportion, label = Percent, fill = Cause, tooltip = Proportion, data_id = Cause)) +
+      ggyp <- ggplot(oneyear(), aes(x = AGE, y = Proportion, label = Percent, fill = Cause, tooltip = as.character(Proportion), data_id = Cause)) +
         geom_bar_interactive(position = 'fill', stat='identity') +
         xlab("") +
         ylab("Proportion of Total Causes") +
