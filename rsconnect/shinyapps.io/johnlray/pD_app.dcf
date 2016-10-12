@@ -2,6 +2,6 @@ name: pD_app
 account: johnlray
 server: shinyapps.io
 appId: 131248
-bundleId: 584218
+bundleId: 584224
 url: https://johnlray.shinyapps.io/pD_app/
-when: 1476254789.09726
+when: 1476255113.76375
