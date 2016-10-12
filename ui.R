@@ -44,9 +44,9 @@ shinyUI(
         ),
         # Create a place for the plot
       mainPanel(
-        ggiraphOutput("basePlot"),
         ggiraphOutput("stackPropPlot"),
         ggiraphOutput("onebarPlot"),
+        ggiraphOutput("basePlot"),
         ggiraphOutput("cumsumPlot"),
         #ggiraphOutput("densPlot"),
         ggiraphOutput("datePlot")

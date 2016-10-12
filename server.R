@@ -68,7 +68,7 @@ shinyServer(function(input, output) {
         theme_classic() +
         xlab("Age") +
         ylab("~p(Death)") +
-        ggtitle("Approximate Annual Probability of Death for Someone Like You, by Age") +
+        ggtitle("Approximate Probability of Death for Someone Like You, by Age") +
         geom_vline(xintercept = 96) +
         annotate("text", x = 100, y = .01, label = c("Sample Max"), size = 3) + xlim(0,105)
       
