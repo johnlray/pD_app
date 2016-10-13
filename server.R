@@ -134,7 +134,7 @@ shinyServer(function(input, output) {
       #ylim(0.75, 1) +
       facet_wrap( ~ MONTH) +
       xlab("") +
-      ylab("~p(Death)") +
+      ylab("N of Deaths of Someone Like You in CDC Data") +
       ggtitle("Number of Deaths of People Like You Per Day of Week, Per Month") +
       scale_fill_manual(values = newpal) +
       theme_classic() +
